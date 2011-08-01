@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UtilVaadin2
+Bundle-SymbolicName: UtilVaadin2
+Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: UtilVaadin2.jar,
+ EGS/EGjobaWeb/WebContent/WEB-INF/lib/vaadin-6.6.0.jar
+Export-Package: com.annotation,
+ com.enumerations,
+ com.example.utilvaadin2,
+ com.interfaces,
+ com.interfaces.implementations
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.eclipse.jdt.core;bundle-version="3.6.1",
+ org.eclipse.jdt.apt.core;bundle-version="3.3.401"
