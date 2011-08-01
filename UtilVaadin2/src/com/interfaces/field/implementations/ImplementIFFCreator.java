@@ -19,12 +19,16 @@ public class ImplementIFFCreator implements IFFCreator {
 		return implementBuildFactory.getFactory();
 	}
 
-	public void getFormAnnotation(IAnnotation annotation) {
+	public String parseFormConstructor(IAnnotation annotation) {
 		// TODO Auto-generated method stub
 		
 		ImplementFormInstruksion impl=new ImplementFormInstruksion();
 		impl.configureFormIntrkusion(annotation);
-		impl.buildFormIntrkusion();
+return		impl.buildFormIntrkusion();
+		
+
 	}
+
+	
 
 }

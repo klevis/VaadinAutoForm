@@ -19,9 +19,19 @@ public class FFCreator implements IFFCreator {
 		return null;
 	}
 
-	public void getFormAnnotation(IAnnotation annotation) {
+
+
+	public String parseFormConstructor(
+			HashMap<IField, List<IAnnotation>> hashMap) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+
+
+	public String parseFormConstructor(IAnnotation annotation) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
