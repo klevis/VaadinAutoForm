@@ -31,7 +31,8 @@ ImplementFormInstruksion extends FormInstruksion {
 			return null;
 	}
 
-	int x = -1, y = -1, x1 = -1, y1 = -1;
+	int x1 = -1, y1 = -1;
+	String x = "-1", y = "-1";
 	String factoryName;
 	String factoryVar;
 
@@ -43,7 +44,6 @@ ImplementFormInstruksion extends FormInstruksion {
 	public ImplementFormInstruksion(List<IAnnotation> annotations2,
 			IField field2) {
 		super(annotations2, field2);
-		// TODO Auto-generated constructor stub
 
 	}
 
@@ -166,7 +166,35 @@ ImplementFormInstruksion extends FormInstruksion {
 				if (iMemberValuePair.getMemberName().equals("caption")) {
 					caption = (String) iMemberValuePair.getValue();
 
-				} else if (iMemberValuePair.getMemberName().equals(
+				} else if (iMemberValuePair.getMemberName().equals("size")) {
+					IAnnotation iAnnotation3 = (IAnnotation) iMemberValuePair
+							.getValue();
+
+					IMemberValuePair[] memberValuePairs3 = iAnnotation3
+							.getMemberValuePairs();
+					for (IMemberValuePair iMemberValuePair3 : memberValuePairs3) {
+						System.out.println("Jemi tek Asizw"
+								+ iMemberValuePair3.getMemberName());
+						if (iMemberValuePair3.getMemberName().equals("setX")) {
+							this.x = (String) iMemberValuePair3.getValue();
+							System.err.println("Vlera" + this.x);
+						} else if (iMemberValuePair3.getMemberName().equals(
+								"setY")) {
+							System.err.println("Vlera " + this.y);
+							this.y = (String) iMemberValuePair3.getValue();
+						} else if (iMemberValuePair3.getMemberName().equals(
+								"setX1")) {
+							this.x1 = (Integer) iMemberValuePair3.getValue();
+						} else if (iMemberValuePair3.getMemberName().equals(
+								"setY1")) {
+							this.y1 = (Integer) iMemberValuePair3.getValue();
+						}
+
+					}
+
+				}
+
+				else if (iMemberValuePair.getMemberName().equals(
 						"generateStrategy")) {
 
 				} else if (iMemberValuePair.getMemberName().equals("imediate")) {
@@ -201,43 +229,12 @@ ImplementFormInstruksion extends FormInstruksion {
 							layoutVarName = lowerCase(layoutName);
 
 							if (s.equals("GridLayout")) {
-								b=false;
-								System.out.println("Hym ne cikel");
+								b = false;
 							} else if (s.equals("FormLayout")
 									|| s.equals("HorizontalLayout")
 									|| s.equals("VerticalLayout")) {
 
-								b=true;
-							}
-
-						} else if (iMemberValuePair2.getMemberName().equals(
-								"position")) {
-							IAnnotation iAnnotation3 = (IAnnotation) iMemberValuePair2
-									.getValue();
-
-							IMemberValuePair[] memberValuePairs3 = iAnnotation3
-									.getMemberValuePairs();
-							for (IMemberValuePair iMemberValuePair3 : memberValuePairs3) {
-
-								if (iMemberValuePair3.getMemberName().equals(
-										"setX")) {
-									this.x = (Integer) iMemberValuePair3
-											.getValue();
-									System.out.println("Hyme ne cikel");
-
-								} else if (iMemberValuePair3.getMemberName()
-										.equals("setY")) {
-									this.y = (Integer) iMemberValuePair3
-											.getValue();
-								} else if (iMemberValuePair3.getMemberName()
-										.equals("setX1")) {
-									this.x1 = (Integer) iMemberValuePair3
-											.getValue();
-								} else if (iMemberValuePair3.getMemberName()
-										.equals("setY1")) {
-									this.y1 = (Integer) iMemberValuePair3
-											.getValue();
-								}
+								b = true;
 
 							}
 
@@ -260,21 +257,21 @@ ImplementFormInstruksion extends FormInstruksion {
 	public String buildFormIntrkusion() {
 		// TODO Auto-generated method stub
 		constructor = getLayoutInstruksion() + "\n\n\n";
-		constructor = constructor + getFactoryObjectInstruksion() + "\n\n\n";
-		constructor=constructor+getDatasourceInstruksion()+"\n\n\n";
-		constructor=constructor+getBeanItemDatasourceInstrksion()+"\n\n\n";
-		
-		constructor = constructor + getConstructorInstruksion() + "\n";
-		
+		constructor = constructor + getFactoryObjectInstruksion() + "\n\n";
+		constructor = constructor + getDatasourceInstruksion() + "\n\n";
+		constructor = constructor + getBeanItemDatasourceInstrksion()
+				+ "\n\n";
 
-		System.out.println("xcxcxcxcxcxcxcx" + getGridLayoutDimens());
-		if (this.x != -1 && this.y != -1 && getGridLayoutDimens() != null) {
+		constructor = constructor + getConstructorInstruksion() + "\n";
+
+		if (this.x.equals("-1") == false && this.y.equals("-1") == false
+				&& getGridLayoutDimens() != null) {
 			constructor = constructor + getGridLayoutDimens() + "\n";
 		}
-		constructor=constructor+setLayoutInstruksion()+"\n";
+		constructor = constructor + setLayoutInstruksion() + "\n";
 		constructor = constructor + getFormCaptionInstruksion() + "\n\n";
 		constructor = constructor + setFormFieldFactoryInstruksion() + "\n";
-		constructor=constructor+setDatasourceInstruksion()+"\n";		
+		constructor = constructor + setDatasourceInstruksion() + "\n";
 		constructor = constructor + "}";
 		System.out.println(constructor);
 

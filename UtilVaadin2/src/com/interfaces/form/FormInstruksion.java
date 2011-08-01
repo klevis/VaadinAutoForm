@@ -41,7 +41,7 @@ public abstract class FormInstruksion {
 
 	public String setLayoutInstruksion() {
 
-		return "this.setLayout("+getLayoutVarName()+");";
+		return "this.setLayout(" + getLayoutVarName() + ");";
 	}
 
 	public String setFormFieldFactoryInstruksion() {
@@ -56,8 +56,6 @@ public abstract class FormInstruksion {
 		return getFactoryName() + "  " + getFactoryVarName() + "=new  "
 				+ getFactoryName() + "();";
 	}
-
-	
 
 	public abstract String getDatasource();
 
@@ -112,33 +110,37 @@ public abstract class FormInstruksion {
 
 	public abstract String getFormName();
 
-	public String getName(){
-		return ""+getFormName().substring(0,getFormName().indexOf("Form"));
+	public String getName() {
+		return "" + getFormName().substring(0, getFormName().indexOf("Form"));
 	}
-	
-	public String getVarName(){
+
+	public String getVarName() {
 		char[] character = getName().toString().toCharArray();
 		Character character2 = Character.valueOf(character[0]);
 		character[0] = character2.toLowerCase(character[0]);
 		return String.valueOf(character);
 	}
-	
+
 	public String getDatasourceInstruksion() {
-		return getName() + "    " + getVarName() + "=new    "
-				+ getName() + "();";
+		return getName() + "    " + getVarName() + "=new    " + getName()
+				+ "();";
 	}
 
-	public String getVarDatasource(){
-		return getVarName()+"Datasource";
+	public String getVarDatasource() {
+		return getVarName() + "Datasource";
 	}
+
 	public String getBeanItemDatasourceInstrksion() {
-		return "BeanItem<" + getName() + ">   " + getVarDatasource() + "=new   " + "BeanItem<" + getName()
-				+ ">   (" + getVarName() + ");";
+		return "BeanItem<" + getName() + ">   " + getVarDatasource()
+				+ "=new   " + "BeanItem<" + getName() + ">   (" + getVarName()
+				+ ");";
 
 	}
 
-public String setDatasourceInstruksion(){
+	public String setDatasourceInstruksion() {
+
+		return "this.setItemDataSource(" + getVarDatasource() + ");";
+	}
 	
-return "this.setItemDataSource("+getVarDatasource()+");";	
-}
+	
 }

@@ -12,6 +12,7 @@ ALayout layout() default @ALayout( layoutType = LayoutType.FormLayout);
 boolean imediate() default true;
 Class<?> clazz() default String.class;
 GenerateStrategy generateStrategy() default @GenerateStrategy();
+ASize size() default @ASize(setX = "-1");
 
 	
 }
