@@ -271,6 +271,7 @@ ImplementFormInstruksion extends FormInstruksion {
 		if (this.x != -1 && this.y != -1 && getGridLayoutDimens() != null) {
 			constructor = constructor + getGridLayoutDimens() + "\n";
 		}
+		constructor=constructor+setLayoutInstruksion()+"\n";
 		constructor = constructor + getFormCaptionInstruksion() + "\n\n";
 		constructor = constructor + setFormFieldFactoryInstruksion() + "\n";
 		constructor=constructor+setDatasourceInstruksion()+"\n";		

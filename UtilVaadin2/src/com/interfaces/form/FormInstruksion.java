@@ -41,7 +41,7 @@ public abstract class FormInstruksion {
 
 	public String setLayoutInstruksion() {
 
-		return "this.setLayout(gridLayout);";
+		return "this.setLayout("+getLayoutVarName()+");";
 	}
 
 	public String setFormFieldFactoryInstruksion() {
