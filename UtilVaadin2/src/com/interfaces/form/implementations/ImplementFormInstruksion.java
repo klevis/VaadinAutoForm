@@ -451,6 +451,9 @@ ImplementFormInstruksion extends FormInstruksion {
 
 		if (this.x.equals("-1") == false && this.y.equals("-1") == false
 				&& getGridLayoutDimens() != null) {
+			if(getLayout().equals("FormLayout")){
+				throw new RuntimeException("FormLayout dosen't have size");
+			}
 			constructor = constructor + getGridLayoutDimens() + "\n";
 		}
 
