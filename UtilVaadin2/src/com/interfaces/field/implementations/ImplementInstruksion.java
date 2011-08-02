@@ -17,11 +17,13 @@ import com.enumerations.FieldType;
 import com.interfaces.field.FieldInstruksions;
 
 public class ImplementInstruksion extends FieldInstruksions {
-	String caption=null;
-	int maxLengthX=-1; 
-	String nullReprezetantion=null;
-public	String type;
+	String caption = null;
+	int maxLengthX = -1;
+	String nullReprezetantion = null;
+	public String type;
 	String x, y;
+	String subFormName;
+	String subFormVarName;
 
 	public ImplementInstruksion(List<IAnnotation> annotations, IField field) {
 		super(annotations, field);
@@ -89,10 +91,16 @@ public	String type;
 				} else if (iMemberValuePair.getMemberName().equals("typeField")) {
 					String s = (String) iMemberValuePair.getValue();
 					type = s.substring(10);
-				}else if(iMemberValuePair.getMemberName().equals("maxLength")){
-					this.maxLengthX=(Integer) iMemberValuePair.getValue();
+				} else if (iMemberValuePair.getMemberName().equals("maxLength")) {
+					this.maxLengthX = (Integer) iMemberValuePair.getValue();
 				}
 
+				else if (iMemberValuePair.getMemberName().equals("clazz")) {
+                  String nameClass= (String) iMemberValuePair.getValue();
+                  subFormName=nameClass+"Form";
+                  subFormVarName=lowerCase(subFormName);
+                  this.type=subFormVarName;
+				}
 			}
 
 		} catch (JavaModelException e) {
@@ -101,11 +109,16 @@ public	String type;
 		}
 
 	}
-
+	private String lowerCase(String formName) {
+		char[] character = formName.toString().toCharArray();
+		Character character2 = Character.valueOf(character[0]);
+		character[0] = character2.toLowerCase(character[0]);
+		return String.valueOf(character);
+	}
 	@Override
 	public void setTypeField(String typeField) {
 		// TODO Auto-generated method stub
-this.type=typeField;
+		this.type = typeField;
 	}
 
 	@Override
@@ -203,7 +216,16 @@ this.type=typeField;
 		return this.y;
 	}
 
-	
-	
-	
+	@Override
+	public String getSubFormName() {
+		// TODO Auto-generated method stub
+		return this.subFormName;
+	}
+
+	@Override
+	public String getSubFormVarName() {
+		// TODO Auto-generated method stub
+		return this.subFormVarName;
+	}
+
 }

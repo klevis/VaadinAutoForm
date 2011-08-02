@@ -143,7 +143,6 @@ ImplementFormInstruksion extends FormInstruksion {
 					attach = "";
 					isAnyPosition = true;
 					isDefaultLayout = true;
-					
 
 				}
 
@@ -174,8 +173,8 @@ ImplementFormInstruksion extends FormInstruksion {
 		if (isOtherLayout == true) {
 			groupAttachInstruksion = "";
 		}
-		if(isDefaultLayout==true){
-			groupAttachInstruksion="";
+		if (isDefaultLayout == true) {
+			groupAttachInstruksion = "";
 		}
 
 		return String.valueOf(groupAttachInstruksion);
@@ -451,7 +450,7 @@ ImplementFormInstruksion extends FormInstruksion {
 
 		if (this.x.equals("-1") == false && this.y.equals("-1") == false
 				&& getGridLayoutDimens() != null) {
-			if(getLayout().equals("FormLayout")){
+			if (getLayout().equals("FormLayout")) {
 				throw new RuntimeException("FormLayout dosen't have size");
 			}
 			constructor = constructor + getGridLayoutDimens() + "\n";

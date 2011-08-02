@@ -4,7 +4,8 @@ public enum FieldType {
 
 	textArea("textArea"),
 	textField("textField"),
-	select("select");
+	select("select"),
+	checkBox("checkBox");
 	private String type;
 
 	private FieldType(String type) {

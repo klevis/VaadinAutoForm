@@ -77,4 +77,12 @@ public abstract class FieldInstruksions {
 	}
 	
 public abstract String getHeight();
+
+public String getSubFormInstruksion(){
+	return getSubFormName()+"  "+getSubFormVarName()+"=new    "+getSubFormName()+"();";
+}
+
+public abstract String getSubFormName();
+
+public abstract String getSubFormVarName();
 }
