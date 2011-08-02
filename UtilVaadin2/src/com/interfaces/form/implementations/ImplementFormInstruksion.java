@@ -28,6 +28,7 @@ ImplementFormInstruksion extends FormInstruksion {
 
 		boolean enterRegularX = false;
 		boolean enterRegularY = false;
+
 		int size = 0;
 		if (positionX != -1) {
 			enterRegularX = true;
@@ -111,7 +112,7 @@ ImplementFormInstruksion extends FormInstruksion {
 					}
 
 				}
-boolean exitWithError=false;
+				boolean exitWithError = false;
 				String attach = null;
 				int sizeDimens = controlDimensPosition();
 				if (isGridLayout == true) {
@@ -123,32 +124,46 @@ boolean exitWithError=false;
 						attach = getAttachFieldInstruksion2Dimens();
 					} else if (sizeDimens == 4) {
 						attach = getAttachFieldInstruksion4Dimens();
-					}else if(sizeDimens==1||sizeDimens==3||sizeDimens>4) {
-						throw(new RuntimeException("GridLayout is two or four dimensional"));
+					} else if (sizeDimens == 1 || sizeDimens == 3
+							|| sizeDimens > 4) {
+						throw (new RuntimeException(
+								"GridLayout is two or four dimensional"));
 					}
 				} else if (isFormLayout) {
-					if (sizeDimens == 1){
+					if (sizeDimens == 1) {
 						attach = getAttachFieldInstruksion1Dimens();
-					}else{
-						exitWithError=true;
-						throw(new RuntimeException("FormLayout is one dimensional"));
+					} else {
+						exitWithError = true;
+						throw (new RuntimeException(
+								"FormLayout is one dimensional"));
 					}
+				} else if (isFormLayout == false && isGridLayout == false
+						&& isOtherLayout == false) {
+
+					attach = "";
+					isAnyPosition = true;
+					isDefaultLayout = true;
+					
+
 				}
 
 				if (isAnyPosition == false) {
 					attach = "//Nuk keni dhene pozicion per kete element";
 				}
-				if(exitWithError==true){
-					attach="";
+				if (exitWithError == true) {
+					attach = "";
 				}
-				if (index > 0) {
-					groupAttachInstruksion = groupAttachInstruksion
-							+ getElseIfFactoryInstruksion() + attach + "\n"
-							+ "}\n";
-				} else {
-					groupAttachInstruksion = groupAttachInstruksion
-							+ getIfFactoryInstruksion() + attach + "\n" + "}\n";
+				if (isDefaultLayout == false) {
+					if (index > 0) {
+						groupAttachInstruksion = groupAttachInstruksion
+								+ getElseIfFactoryInstruksion() + attach + "\n"
+								+ "}\n";
+					} else {
+						groupAttachInstruksion = groupAttachInstruksion
+								+ getIfFactoryInstruksion() + attach + "\n"
+								+ "}\n";
 
+					}
 				}
 
 				index++;
@@ -158,6 +173,9 @@ boolean exitWithError=false;
 		groupAttachInstruksion = groupAttachInstruksion + "\n" + "}";
 		if (isOtherLayout == true) {
 			groupAttachInstruksion = "";
+		}
+		if(isDefaultLayout==true){
+			groupAttachInstruksion="";
 		}
 
 		return String.valueOf(groupAttachInstruksion);
@@ -193,6 +211,7 @@ boolean exitWithError=false;
 	boolean isOtherLayout = false;
 	boolean layoutTypeDimens = false;
 	boolean isAnyPosition = false;
+	boolean isDefaultLayout = false;
 
 	private String lowerCase(String formName) {
 		char[] character = formName.toString().toCharArray();
@@ -418,6 +437,11 @@ boolean exitWithError=false;
 	public String buildFormIntrkusion() {
 		// TODO Auto-generated method stub
 
+		if (getLayout() == null) {
+
+			layoutName = "FormLayout";
+			layoutVarName = lowerCase(layoutName);
+		}
 		constructor = getLayoutInstruksion() + "\n\n\n";
 		constructor = constructor + getFactoryObjectInstruksion() + "\n\n";
 		constructor = constructor + getDatasourceInstruksion() + "\n\n";
@@ -429,8 +453,10 @@ boolean exitWithError=false;
 				&& getGridLayoutDimens() != null) {
 			constructor = constructor + getGridLayoutDimens() + "\n";
 		}
+
 		constructor = constructor + setLayoutInstruksion() + "\n";
-		constructor = constructor + getFormCaptionInstruksion() + "\n\n";
+		if (getCaption() != null)
+			constructor = constructor + getFormCaptionInstruksion() + "\n\n";
 		constructor = constructor + setFormFieldFactoryInstruksion() + "\n";
 		constructor = constructor + setDatasourceInstruksion() + "\n";
 		constructor = constructor + "}";

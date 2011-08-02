@@ -17,6 +17,11 @@ public class ImplementGroupIntruksion extends GroupInstruksion {
 
 		id = "emriPerson";
 		annName = "field";
+		if(instruksions.getTypeField()==null){
+			instruksions.setTypeField("textField");
+			System.err.println("U BE NULLLLLLLL");
+			
+		}
 		if (instruksions.getSizeX() != null && instruksions.getSizey() != null) {
 			allGroup = instruksions.getInitObjectInstruksion() + "\n"
 					+ instruksions.getHeightInstruksion() + "\n" + instruksions.getWidthInstruksion()

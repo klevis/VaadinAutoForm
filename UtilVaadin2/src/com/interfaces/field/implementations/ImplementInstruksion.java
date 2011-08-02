@@ -20,7 +20,7 @@ public class ImplementInstruksion extends FieldInstruksions {
 	String caption=null;
 	int maxLengthX=-1; 
 	String nullReprezetantion=null;
-	String type;
+public	String type;
 	String x, y;
 
 	public ImplementInstruksion(List<IAnnotation> annotations, IField field) {
@@ -105,7 +105,7 @@ public class ImplementInstruksion extends FieldInstruksions {
 	@Override
 	public void setTypeField(String typeField) {
 		// TODO Auto-generated method stub
-
+this.type=typeField;
 	}
 
 	@Override

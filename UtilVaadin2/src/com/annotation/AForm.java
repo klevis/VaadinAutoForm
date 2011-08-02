@@ -10,7 +10,7 @@ public @interface AForm {
 String caption() default "";
 ALayout layout() default @ALayout( layoutType = LayoutType.FormLayout);
 boolean imediate() default true;
-Class<?> clazz() default String.class;
+Class<?> clazz() ;
 GenerateStrategy generateStrategy() default @GenerateStrategy();
 ASize size() default @ASize(setX = "-1");
 
