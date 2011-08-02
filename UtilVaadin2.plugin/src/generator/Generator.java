@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
@@ -107,6 +109,9 @@ public class Generator implements IGenerator {
 		} catch (JavaModelException e) {
 			e.printStackTrace();
 		}
+		  catch (RuntimeException re){
+			  JOptionPane.showConfirmDialog(null, re.getMessage());
+		  }
 
 	}
 
