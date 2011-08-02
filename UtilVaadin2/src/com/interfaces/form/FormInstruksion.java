@@ -9,10 +9,9 @@ import org.eclipse.jdt.core.IField;
 import com.annotation.AForm;
 
 public abstract class FormInstruksion {
-	protected HashMap<IField, IAnnotation> hashMap;
-	
+	protected HashMap<IField,List<IAnnotation>> hashMap;	
 
-	public FormInstruksion(HashMap<IField,IAnnotation> hashMap) {
+	public FormInstruksion(HashMap<IField,List<IAnnotation>> hashMap) {
 this.hashMap=hashMap;
 	}
 
@@ -80,6 +79,8 @@ this.hashMap=hashMap;
 				+ getOneDimensLayout() + ");";
 	}
 
+	public abstract String getColumnSize();
+	public abstract String getRowsSize();
 	public abstract String getColumn();
 
 	public abstract String getRows();

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.print.attribute.standard.MediaSize.Other;
+
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMemberValuePair;
@@ -16,19 +18,127 @@ public class
 
 ImplementFormInstruksion extends FormInstruksion {
 
-	public ImplementFormInstruksion(HashMap<IField, IAnnotation> hashMap) {
+	String groupAttachInstruksion = "@Override" + "\n"
+			+ "protected void attachField(Object propertyId, Field field){"
+			+ "\n";
+	IField iField;
+
+	public int controlDimensPosition() {
+
+		boolean enterRegularX = false;
+		boolean enterRegularY = false;
+		int size = 0;
+		if (positionX != -1) {
+			enterRegularX = true;
+
+			size++;
+		}
+		if (positionY != -1 && enterRegularX == true) {
+			size++;
+			enterRegularY = true;
+		}
+		if (enterRegularX == true && enterRegularY == true) {
+			if (positionX1 != -1 && positionY1 != -1) {
+				size = size + 2;
+			}
+		}
+
+		return size;
+	}
+
+	public ImplementFormInstruksion(HashMap<IField, List<IAnnotation>> hashMap)
+			throws JavaModelException {
 
 		super(hashMap);
-	int hashSize=-1;
-	int index=0;
-	hashSize=this.hashMap.size();
-	 Set<IField> keySet = this.hashMap.keySet();
-	for (IField iField : keySet) {
-		
-		
-	} 
-	
-		
+
+	}
+
+	public String buildAttachField() throws JavaModelException {
+		Set<IField> keySet = this.hashMap.keySet();
+		int index = 0;
+		if (isOtherLayout == false) {
+			for (IField iField : keySet) {
+				List<IAnnotation> listAnnotation = (List<IAnnotation>) this.hashMap
+						.get(iField);
+				this.iField = iField;
+				for (IAnnotation iAnnotation : listAnnotation) {
+
+					IMemberValuePair[] memberValuePairs = iAnnotation
+							.getMemberValuePairs();
+					for (IMemberValuePair iMemberValuePair : memberValuePairs) {
+
+						if (iMemberValuePair.getMemberName().equals("position")) {
+							this.positionX = -1;
+							this.positionX1 = -1;
+							this.positionY = -1;
+							this.positionY1 = -1;
+							IAnnotation positionAnnotation = (IAnnotation) iMemberValuePair
+									.getValue();
+							IMemberValuePair[] memberValuePairs2 = positionAnnotation
+									.getMemberValuePairs();
+							for (IMemberValuePair iMemberValuePair2 : memberValuePairs2) {
+								if (iMemberValuePair2.getMemberName().equals(
+										"setX")) {
+									this.positionX = (Integer) iMemberValuePair2
+											.getValue();
+								} else if (iMemberValuePair2.getMemberName()
+										.equals("setY")) {
+									this.positionY = (Integer) iMemberValuePair2
+											.getValue();
+								} else if (iMemberValuePair2.getMemberName()
+										.equals("setX1")) {
+									this.positionX1 = (Integer) iMemberValuePair2
+											.getValue();
+								} else if (iMemberValuePair2.getMemberName()
+										.equals("setY1")) {
+									this.positionY1 = (Integer) iMemberValuePair2
+											.getValue();
+
+								}
+
+							}
+						}
+
+					}
+
+				}
+
+				String attach = null;
+				int sizeDimens = controlDimensPosition();
+				if (isGridLayout == true) {
+
+					System.out.println("Layout Dimens" + sizeDimens);
+
+					if (sizeDimens == 2) {
+
+						attach = getAttachFieldInstruksion2Dimens();
+					} else if (sizeDimens == 4) {
+						attach = getAttachFieldInstruksion4Dimens();
+					}
+				} else if (isFormLayout) {
+					if (sizeDimens == 1)
+						attach = getAttachFieldInstruksion1Dimens();
+				}
+
+				if (index > 0) {
+					groupAttachInstruksion = groupAttachInstruksion
+							+ getElseIfFactoryInstruksion() + attach + "\n"
+							+ "}\n";
+				} else {
+					groupAttachInstruksion = groupAttachInstruksion
+							+ getIfFactoryInstruksion() + attach + "\n" + "}\n";
+
+				}
+
+				index++;
+			}
+		}
+
+		groupAttachInstruksion = groupAttachInstruksion + "\n" + "}";
+		if (isOtherLayout == true) {
+			groupAttachInstruksion = "";
+		}
+		return String.valueOf(groupAttachInstruksion);
 	}
 
 	public ImplementFormInstruksion() {
@@ -45,13 +155,14 @@ ImplementFormInstruksion extends FormInstruksion {
 	public String getDimensionLayout() {
 
 		if (layoutTypeDimens == false) {
-			return getLayoutVarName() + ".setRows(" + getRows() + ");" + "\n"
-					+ getLayoutVarName() + ".setColumns(" + getColumn() + ");";
+			return getLayoutVarName() + ".setRows(" + getRowsSize() + ");"
+					+ "\n" + getLayoutVarName() + ".setColumns("
+					+ getColumnSize() + ");";
 		} else
 			return null;
 	}
 
-	int x1 = -1, y1 = -1;
+	int positionX = -1, positionY = -1, positionX1 = -1, positionY1 = -1;
 	String x = "-1", y = "-1";
 	String factoryName;
 	String factoryVar;
@@ -94,43 +205,43 @@ ImplementFormInstruksion extends FormInstruksion {
 	@Override
 	public String getVarNameIf() {
 		// TODO Auto-generated method stub
-		return null;
+		return iField.getElementName();
 	}
 
 	@Override
 	public String getVarNameElse() {
 		// TODO Auto-generated method stub
-		return null;
+		return iField.getElementName();
 	}
 
 	@Override
 	public String getColumn() {
 		// TODO Auto-generated method stub
-		return String.valueOf(this.x);
+		return String.valueOf(this.positionX);
 	}
 
 	@Override
 	public String getRows() {
 		// TODO Auto-generated method stub
-		return String.valueOf(this.y);
+		return String.valueOf(this.positionY);
 	}
 
 	@Override
 	public String toGetColumn() {
 		// TODO Auto-generated method stub
-		return String.valueOf(this.x1);
+		return String.valueOf(this.positionX1);
 	}
 
 	@Override
 	public String toGetRows() {
 		// TODO Auto-generated method stub
-		return String.valueOf(this.y);
+		return String.valueOf(this.positionY1);
 	}
 
 	@Override
 	public String getOneDimensLayout() {
 		// TODO Auto-generated method stub
-		return String.valueOf(this.x);
+		return String.valueOf(this.positionX);
 	}
 
 	@Override
@@ -197,10 +308,12 @@ ImplementFormInstruksion extends FormInstruksion {
 							this.y = (String) iMemberValuePair3.getValue();
 						} else if (iMemberValuePair3.getMemberName().equals(
 								"setX1")) {
-							this.x1 = (Integer) iMemberValuePair3.getValue();
+							this.positionX1 = (Integer) iMemberValuePair3
+									.getValue();
 						} else if (iMemberValuePair3.getMemberName().equals(
 								"setY1")) {
-							this.y1 = (Integer) iMemberValuePair3.getValue();
+							this.positionY1 = (Integer) iMemberValuePair3
+									.getValue();
 						}
 
 					}
@@ -243,10 +356,22 @@ ImplementFormInstruksion extends FormInstruksion {
 
 							if (s.equals("GridLayout")) {
 								layoutTypeDimens = false;
+								isGridLayout = true;
+								isFormLayout = false;
+								isOtherLayout = false;
 							} else if (s.equals("FormLayout")
 									|| s.equals("HorizontalLayout")
 									|| s.equals("VerticalLayout")) {
 
+								if (s.equals("FormLayout")) {
+									isGridLayout = false;
+									isFormLayout = true;
+									isOtherLayout = false;
+								} else {
+									isGridLayout = false;
+									isFormLayout = false;
+									isOtherLayout = true;
+								}
 								layoutTypeDimens = true;
 
 							}
@@ -269,6 +394,7 @@ ImplementFormInstruksion extends FormInstruksion {
 	@Override
 	public String buildFormIntrkusion() {
 		// TODO Auto-generated method stub
+
 		constructor = getLayoutInstruksion() + "\n\n\n";
 		constructor = constructor + getFactoryObjectInstruksion() + "\n\n";
 		constructor = constructor + getDatasourceInstruksion() + "\n\n";
@@ -294,6 +420,18 @@ ImplementFormInstruksion extends FormInstruksion {
 	public String getFactoryVarName() {
 		// TODO Auto-generated method stub
 		return factoryVar;
+	}
+
+	@Override
+	public String getColumnSize() {
+		// TODO Auto-generated method stub
+		return String.valueOf(this.y);
+	}
+
+	@Override
+	public String getRowsSize() {
+		// TODO Auto-generated method stub
+		return String.valueOf(this.x);
 	}
 
 }

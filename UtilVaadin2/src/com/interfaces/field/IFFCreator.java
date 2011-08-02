@@ -11,6 +11,7 @@ public interface IFFCreator {
 String parseAnnotation(HashMap<IField,List<IAnnotation>> hashMap);	
 String parseFormConstructor(IAnnotation annotation);	
 
+String parseAttachField(HashMap<IField,List<IAnnotation>> hashMap);
 
 	
 }
