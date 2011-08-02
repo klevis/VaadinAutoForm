@@ -17,9 +17,9 @@ import com.enumerations.FieldType;
 import com.interfaces.field.FieldInstruksions;
 
 public class ImplementInstruksion extends FieldInstruksions {
-	String caption;
-	int maxLengthX;
-	String nullReprezetantion;
+	String caption=null;
+	int maxLengthX=-1; 
+	String nullReprezetantion=null;
 	String type;
 	String x, y;
 

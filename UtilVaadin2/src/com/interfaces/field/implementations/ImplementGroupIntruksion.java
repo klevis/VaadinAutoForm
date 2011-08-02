@@ -19,33 +19,32 @@ public class ImplementGroupIntruksion extends GroupInstruksion {
 		annName = "field";
 		if (instruksions.getSizeX() != null && instruksions.getSizey() != null) {
 			allGroup = instruksions.getInitObjectInstruksion() + "\n"
-					+ instruksions.getMaxLengthInstruksion() + "\n"
-					+ instruksions.getNullReprezationInstruksion ()+ "\n"
-					+ instruksions.getCaptionInstruction() + "\n"
 					+ instruksions.getHeightInstruksion() + "\n" + instruksions.getWidthInstruksion()
 					+ "\n";
 		} else if (instruksions.getSizeX() != null
 				&& instruksions.getSizey() == null) {
 			allGroup = instruksions.getInitObjectInstruksion() + "\n"
-					+ instruksions.getMaxLengthInstruksion() + "\n"
-					+ instruksions.getNullReprezationInstruksion () + "\n"
-					+ instruksions.getCaptionInstruction() + "\n"
 					+ instruksions.getWidthInstruksion() + "\n" ;
 		} else if (instruksions.getSizeX() == null
 				&& instruksions.getSizey() != null) {
 			allGroup = instruksions.getInitObjectInstruksion() + "\n"
-					+ instruksions.getMaxLengthInstruksion() + "\n"
-					+ instruksions.getNullReprezationInstruksion () + "\n"
-					+ instruksions.getCaptionInstruction() + "\n"
 					+ instruksions.getHeightInstruksion() + "\n";
 		} else if (instruksions.getSizeX() == null
 				&& instruksions.getSizey() == null) {
-			allGroup = instruksions.getInitObjectInstruksion() + "\n"
-					+ instruksions.getMaxLengthInstruksion() + "\n"
-					+ instruksions.getNullReprezationInstruksion () + "\n"
-					+ instruksions.getCaptionInstruction() + "\n" ;
+			allGroup = instruksions.getInitObjectInstruksion() + "\n";
 		}
 		
+		if (instruksions.getMaxLength().equals("-1") == false&&instruksions.getTypeField().equals("select")==false) {
+			allGroup = allGroup + instruksions.getMaxLengthInstruksion() + "\n";
+		}
+		if (instruksions.getNullReprezation() != null&&instruksions.getTypeField().equals("select")==false) {
+			allGroup = allGroup + instruksions.getNullReprezationInstruksion()
+					+ "\n";
+		}
+		
+		if (instruksions.getCaption() != null) {
+			allGroup = allGroup + instruksions.getCaptionInstruction() + "\n";
+		}
 		
 		allGroup=allGroup+"\n"+instruksions.getReturnFieldInstruksion()+";"+"\n"+"}";
 		

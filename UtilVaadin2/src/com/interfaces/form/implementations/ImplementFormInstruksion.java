@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
 import javax.print.attribute.standard.MediaSize.Other;
 
 import org.eclipse.jdt.core.IAnnotation;
@@ -65,6 +66,7 @@ ImplementFormInstruksion extends FormInstruksion {
 
 					IMemberValuePair[] memberValuePairs = iAnnotation
 							.getMemberValuePairs();
+					isAnyPosition = false;
 					for (IMemberValuePair iMemberValuePair : memberValuePairs) {
 
 						if (iMemberValuePair.getMemberName().equals("position")) {
@@ -72,6 +74,7 @@ ImplementFormInstruksion extends FormInstruksion {
 							this.positionX1 = -1;
 							this.positionY = -1;
 							this.positionY1 = -1;
+							isAnyPosition = true;
 							IAnnotation positionAnnotation = (IAnnotation) iMemberValuePair
 									.getValue();
 							IMemberValuePair[] memberValuePairs2 = positionAnnotation
@@ -100,9 +103,15 @@ ImplementFormInstruksion extends FormInstruksion {
 						}
 
 					}
+					if (isAnyPosition == false) {
+						this.positionX = -1;
+						this.positionX1 = -1;
+						this.positionY = -1;
+						this.positionY1 = -1;
+					}
 
 				}
-
+boolean exitWithError=false;
 				String attach = null;
 				int sizeDimens = controlDimensPosition();
 				if (isGridLayout == true) {
@@ -114,12 +123,24 @@ ImplementFormInstruksion extends FormInstruksion {
 						attach = getAttachFieldInstruksion2Dimens();
 					} else if (sizeDimens == 4) {
 						attach = getAttachFieldInstruksion4Dimens();
+					}else if(sizeDimens==1||sizeDimens==3||sizeDimens>4) {
+						throw(new RuntimeException("GridLayout is two or four dimensional"));
 					}
 				} else if (isFormLayout) {
-					if (sizeDimens == 1)
+					if (sizeDimens == 1){
 						attach = getAttachFieldInstruksion1Dimens();
+					}else{
+						exitWithError=true;
+						throw(new RuntimeException("FormLayout is one dimensional"));
+					}
 				}
 
+				if (isAnyPosition == false) {
+					attach = "//Nuk keni dhene pozicion per kete element";
+				}
+				if(exitWithError==true){
+					attach="";
+				}
 				if (index > 0) {
 					groupAttachInstruksion = groupAttachInstruksion
 							+ getElseIfFactoryInstruksion() + attach + "\n"
@@ -138,6 +159,7 @@ ImplementFormInstruksion extends FormInstruksion {
 		if (isOtherLayout == true) {
 			groupAttachInstruksion = "";
 		}
+
 		return String.valueOf(groupAttachInstruksion);
 	}
 
@@ -170,6 +192,7 @@ ImplementFormInstruksion extends FormInstruksion {
 	boolean isFormLayout = false;
 	boolean isOtherLayout = false;
 	boolean layoutTypeDimens = false;
+	boolean isAnyPosition = false;
 
 	private String lowerCase(String formName) {
 		char[] character = formName.toString().toCharArray();
