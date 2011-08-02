@@ -89,6 +89,8 @@ public class ImplementInstruksion extends FieldInstruksions {
 				} else if (iMemberValuePair.getMemberName().equals("typeField")) {
 					String s = (String) iMemberValuePair.getValue();
 					type = s.substring(10);
+				}else if(iMemberValuePair.getMemberName().equals("maxLength")){
+					this.maxLengthX=(Integer) iMemberValuePair.getValue();
 				}
 
 			}

@@ -1,5 +1,6 @@
 package com.interfaces.form;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.jdt.core.IAnnotation;
@@ -8,14 +9,11 @@ import org.eclipse.jdt.core.IField;
 import com.annotation.AForm;
 
 public abstract class FormInstruksion {
+	protected HashMap<IField, IAnnotation> hashMap;
+	
 
-	protected List<IAnnotation> annotations;
-	protected IField field;
-
-	public FormInstruksion(List<IAnnotation> annotations2, IField field2) {
-		this.annotations = annotations2;
-		this.field = field2;
-
+	public FormInstruksion(HashMap<IField,IAnnotation> hashMap) {
+this.hashMap=hashMap;
 	}
 
 	public String getLayoutInstruksion() {

@@ -1,6 +1,8 @@
 package com.interfaces.form.implementations;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
@@ -14,17 +16,35 @@ public class
 
 ImplementFormInstruksion extends FormInstruksion {
 
+	public ImplementFormInstruksion(HashMap<IField, IAnnotation> hashMap) {
+
+		super(hashMap);
+	int hashSize=-1;
+	int index=0;
+	hashSize=this.hashMap.size();
+	 Set<IField> keySet = this.hashMap.keySet();
+	for (IField iField : keySet) {
+		
+		
+	} 
+	
+		
+	}
+
+	public ImplementFormInstruksion() {
+		// TODO Auto-generated constructor stub
+		super(null);
+	}
+
 	String caption;
 	String formName;
 	String varFormName;
 	String layoutName;
 	String layoutVarName;
 
-	boolean b = false;
-
 	public String getDimensionLayout() {
 
-		if (b == false) {
+		if (layoutTypeDimens == false) {
 			return getLayoutVarName() + ".setRows(" + getRows() + ");" + "\n"
 					+ getLayoutVarName() + ".setColumns(" + getColumn() + ");";
 		} else
@@ -35,17 +55,10 @@ ImplementFormInstruksion extends FormInstruksion {
 	String x = "-1", y = "-1";
 	String factoryName;
 	String factoryVar;
-
-	public ImplementFormInstruksion() {
-		// TODO Auto-generated constructor stub
-		super(null, null);
-	}
-
-	public ImplementFormInstruksion(List<IAnnotation> annotations2,
-			IField field2) {
-		super(annotations2, field2);
-
-	}
+	boolean isGridLayout = false;
+	boolean isFormLayout = false;
+	boolean isOtherLayout = false;
+	boolean layoutTypeDimens = false;
 
 	private String lowerCase(String formName) {
 		char[] character = formName.toString().toCharArray();
@@ -229,12 +242,12 @@ ImplementFormInstruksion extends FormInstruksion {
 							layoutVarName = lowerCase(layoutName);
 
 							if (s.equals("GridLayout")) {
-								b = false;
+								layoutTypeDimens = false;
 							} else if (s.equals("FormLayout")
 									|| s.equals("HorizontalLayout")
 									|| s.equals("VerticalLayout")) {
 
-								b = true;
+								layoutTypeDimens = true;
 
 							}
 
@@ -259,8 +272,7 @@ ImplementFormInstruksion extends FormInstruksion {
 		constructor = getLayoutInstruksion() + "\n\n\n";
 		constructor = constructor + getFactoryObjectInstruksion() + "\n\n";
 		constructor = constructor + getDatasourceInstruksion() + "\n\n";
-		constructor = constructor + getBeanItemDatasourceInstrksion()
-				+ "\n\n";
+		constructor = constructor + getBeanItemDatasourceInstrksion() + "\n\n";
 
 		constructor = constructor + getConstructorInstruksion() + "\n";
 
