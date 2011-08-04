@@ -19,7 +19,7 @@ import com.interfaces.field.FieldInstruksions;
 public class ImplementInstruksion extends FieldInstruksions {
 	String caption = null;
 	int maxLengthX = -1;
-	String nullReprezetantion = null;
+	String nullReprezetantion = "";
 	public String type;
 	String x, y;
 	String subFormName;

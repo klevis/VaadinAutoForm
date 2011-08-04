@@ -43,9 +43,9 @@ public class ImplementGroupIntruksion extends GroupInstruksion {
 				&& instruksions.getTypeField().equals("checkBox") == false) {
 			allGroup = allGroup + instruksions.getMaxLengthInstruksion() + "\n";
 		}
-		if (instruksions.getNullReprezation() != null
+		if (instruksions.getNullReprezation().equals("")
 				&& instruksions.getTypeField().equals("select") == false
-				&& instruksions.getTypeField().equals("checkBox") == false) {
+				&& instruksions.getTypeField().equals("checkBox") == false&&instruksions.getTypeField().contains("Form")==false) {
 			allGroup = allGroup + instruksions.getNullReprezationInstruksion()
 					+ "\n";
 		}

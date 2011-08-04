@@ -20,34 +20,21 @@ public class ImplementBuildFactory extends FactoryInterface {
 		super(hashMap);
 		Set<IField> keySet = hashMap.keySet();
 		
-//			System.out.println(iField.getElementName());
 		
 		int index = 0;
 		int size = keySet.size();
-		System.out.println(size+" YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
 		
 		ImplementInstruksion[] implementInstruksions = new ImplementInstruksion[size];
 		int length = implementInstruksions.length;
-		System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+length);
 		ImplementGroupIntruksion[] implementGroupIntruksions = new ImplementGroupIntruksion[size];
-		if (keySet.isEmpty())System.out.println("BOSH KeySet KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
-//		Iterator<IField> iterator = keySet.iterator();
 		for (IField iField : keySet) {
 
 			IField nextField = iField;
-			System.out.println(nextField.getElementName()+"IIIITERATORIII");
-//			System.out.println((nextField.getElementName()+" FIELLLLLLLLLLLLLLLLLLLD"));
-//			if (nextField==null) System.out.println("NUL KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 			List<IAnnotation> listAnotaion = hashMap.get(nextField);
-//			System.out.println(listAnotaion.toString()+" KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK");
 			if (index>size-1) break;
 			
-			System.out.println("BRENDAAAAA");
 			implementInstruksions[index] = new ImplementInstruksion(
 					listAnotaion, nextField);
-			System.out.println(implementInstruksions[index].caption);
-//			System.out.println(implementInstruksions[index].captionInstrkusion);
-			System.out.println(implementInstruksions[index].getVarNameIf()+"   SDFGHJKL");
 			implementGroupIntruksions[index] = new ImplementGroupIntruksion(
 					implementInstruksions[index]);
 			
