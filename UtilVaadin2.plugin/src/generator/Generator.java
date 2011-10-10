@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -33,8 +35,13 @@ public class Generator implements IGenerator {
 	@Override
 	public void generateFF(IType daoClass, ICompilationUnit cu) {
 
-		String lowLevel = "\nPjesa e Kalit\n";
+		recursiveGeneration(daoClass, cu);
 
+	}
+
+	private void recursiveGeneration(IType daoClass, ICompilationUnit cu) {
+		String lowLevel = "\nPjesa e Kalit\n";
+//		System.out.println(cu.getElementName()+"77777777777777777777777777777777777777777777777777777");
 		String method = null;
 		IField[] fields;
 		HashMap<IField, List<IAnnotation>> hashMap = new HashMap<IField, List<IAnnotation>>();
@@ -46,10 +53,27 @@ public class Generator implements IGenerator {
 		
 			for (IField field : fields) {
 				IAnnotation[] annotations = field.getAnnotations();
+				for (IAnnotation iAnnotation : annotations) {
+					
+					if (iAnnotation.getElementName().equals("SubForm")){
+						
+						
+						String strCUName = (String) iAnnotation.getMemberValuePairs()[0].getValue();
+						ICompilationUnit icu = findCompilationUnit(cu,strCUName+".java");
+						recursiveGeneration(icu.getTypes()[0],icu );
+					}
+					
+				}
 				List<IAnnotation> asList = Arrays.asList(annotations);
 				hashMap.put(field, asList);
 			}
-
+			
+//			ICompilationUnit oldGenCu = findCompilationUnit(cu, daoClass.getElementName()+"FormFactory.java");
+//			IType iType = oldGenCu.getTypes()[0];
+//			String signature = iType.getMethods()[0].getSignature();
+//			IMethod method2 = iType.getMethod("createField", new String[] {"Item","Object","Component"});
+//			System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n"+signature+"\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+			
 			lowLevel = iffcreator.parseAnnotation(hashMap);
 
 			method = "public Field createField(Item item, Object propertyId,Component uiContext){\n"
@@ -91,7 +115,6 @@ public class Generator implements IGenerator {
 
 			String constructorString = iffcreator.parseFormConstructor(daoClass
 					.getAnnotations()[0]);
-
 			String parseAttachField = iffcreator.parseAttachField(hashMap);
 			
 			
@@ -112,7 +135,31 @@ public class Generator implements IGenerator {
 		  catch (RuntimeException re){
 			  JOptionPane.showConfirmDialog(null, re.getMessage());
 		  }
+	}
 
+	private ICompilationUnit findCompilationUnit(ICompilationUnit cu, String cuName) {
+//		System.out.println("555555555555555555555555555555555555555INSIDE");
+		try {
+			IPackageFragment[] packages = cu.getJavaProject().getPackageFragments();
+//			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1"+packages.length);
+			for (IPackageFragment iPackageFragment : packages) {
+//				System.out.println("6666666666666666666666666666666666666"+iPackageFragment.getElementName());
+				ICompilationUnit[] cus = iPackageFragment.getCompilationUnits();
+				for (ICompilationUnit iCompilationUnit : cus) {
+//					System.out.println("888888888888888888888888888888888888888888"+iCompilationUnit.getElementName());
+					if (iCompilationUnit.getElementName().equals(cuName)){
+//						System.out.println("U GJET NE: "+iPackageFragment.getElementName());
+							return iCompilationUnit;
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+		
 	}
 
 }
