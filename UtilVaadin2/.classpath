@@ -6,7 +6,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/ProjektADAM/ADAM/WebContent/WEB-INF/lib/vaadin-6.6.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="C:/vaadin-6.6.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

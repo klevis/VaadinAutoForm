@@ -132,10 +132,14 @@ ImplementFormInstruksion extends FormInstruksion {
 				} else if (isFormLayout) {
 					if (sizeDimens == 1) {
 						attach = getAttachFieldInstruksion1Dimens();
-					} else {
+					} 
+					
+					else if(sizeDimens>1) {
 						exitWithError = true;
 						throw (new RuntimeException(
 								"FormLayout is one dimensional"));
+					}else{
+						attach="duhet te jepni pozicion per cdo element";
 					}
 				} else if (isFormLayout == false && isGridLayout == false
 						&& isOtherLayout == false) {
